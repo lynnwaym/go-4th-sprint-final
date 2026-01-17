@@ -19,23 +19,29 @@ const (
 )
 
 func parsePackage(data string) (int, time.Duration, error) {
-	ppError := errors.New("parse package error")
 
 	parsed := strings.Split(data, ",")
 	if len(parsed) != 2 {
-		return 0, 0, ppError
+		return 0, 0, errors.New("Некорректный ввод данных")
 	}
 
 	steps, err := strconv.Atoi(parsed[0])
-	if err != nil || steps <= 0 {
-		return 0, 0, ppError
+	if err != nil {
+		return 0, 0, err
+	}
+
+	if steps <= 0 {
+		return 0, 0, errors.New("Некорректный ввод данных")
 	}
 
 	walkTime, err := time.ParseDuration(parsed[1])
-	if err != nil || walkTime <= 0 {
-		return 0, 0, ppError
+	if err != nil {
+		return 0, 0, err
 	}
 
+	if walkTime <= 0 {
+		return 0, 0, errors.New("Некорректный ввод данных")
+	}
 	return steps, walkTime, nil
 }
 
@@ -47,12 +53,7 @@ func DayActionInfo(data string, weight, height float64) string {
 		return ""
 	}
 
-	if steps < 0 {
-		log.Println(err)
-		return ""
-	}
-
-	walkDistance := float64(steps) * stepLength / float64(mInKm)
+	walkDistance := float64(steps) * stepLength / mInKm
 
 	spentCalories, err := spentcalories.WalkingSpentCalories(steps, weight, height, walkTime)
 
