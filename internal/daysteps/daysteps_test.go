@@ -337,7 +337,6 @@ func (suite *DayStepsTestSuite) TestDayActionInfo() {
 
 			assert.Equal(suite.T(), tt.want, got, "\nDayActionInfo() получено:\n%v\nожидается:\n%v\n(ввод: %q, вес: %.1f, рост: %.2f)",
 				got, tt.want, tt.input, tt.weight, tt.height)
-
 			if tt.wantLogOutput {
 				assert.NotEmpty(suite.T(), buf.String(), "Ожидался вывод в лог, но его нет")
 			} else {
